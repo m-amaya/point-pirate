@@ -8,6 +8,11 @@ import { PATHS, SERVER } from '../project.config';
  * Webpack Dev-Specific Configuration
  */
 const config: Configuration = merge(common, {
+  entry: [
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client?quiet=true',
+    PATHS.entry,
+  ],
   mode: 'development',
   devtool: 'eval-source-map',
   devServer: {
