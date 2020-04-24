@@ -11,9 +11,14 @@ export const rgba = (hexColor: string, alpha: number) =>
  */
 const colors = {
   white: '#FFFFFF',
+  gray: '#707070',
+  grayDarker: '#575757',
   grayDarkest: '#37393F',
   black: '#000000',
-  red: '#E27E7E',
+  red: '#F16771',
+  redDarker: '#C2545C',
+  green: '#6CC795',
+  greenDarker: '#529370',
 };
 
 /**
@@ -23,6 +28,10 @@ export const theme = {
   page: {
     bg: colors.grayDarkest,
     fg: colors.white,
+    divider: {
+      highlight: '#4a4a4a',
+      shadow: '#252525',
+    },
   },
   footer: {
     bg: colors.black,
@@ -30,5 +39,26 @@ export const theme = {
   icon: {
     logo: colors.red,
     user: '#646464',
+    activeRoom: colors.green,
+    inactiveRoom: colors.gray,
+  },
+  input: {
+    bg: colors.black,
+    fg: colors.white,
+  },
+  button: {
+    fg: colors.white,
+    primary: {
+      bg: colors.red,
+      border: colors.redDarker,
+    },
+    secondary: {
+      bg: colors.green,
+      border: colors.greenDarker,
+    },
+    tertiary: {
+      bg: colors.gray,
+      border: colors.grayDarker,
+    },
   },
 };

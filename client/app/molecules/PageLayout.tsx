@@ -29,7 +29,7 @@ const Header = styled.div({
 });
 
 const Content = styled.div({
-  margin: '200px auto 0',
+  margin: '100px auto 0',
   width: '100%',
   maxWidth: 500,
 });
