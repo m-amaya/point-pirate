@@ -16,5 +16,5 @@ if (isDev) {
 }
 
 app.listen(SERVER.port, () =>
-  console.log(`Magic happens on port ${SERVER.port}!!`),
+  console.log(`Magic happens on port ${SERVER.port}!`),
 );

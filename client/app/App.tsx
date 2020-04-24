@@ -1,6 +1,7 @@
 import React from 'react';
 import { hot } from 'react-hot-loader/root';
+import { PageLayout } from 'app/molecules/PageLayout';
 
 export const App: React.FC = hot(() => {
-  return <div>Hello mamaya!</div>;
+  return <PageLayout>Hello mamaya!</PageLayout>;
 });

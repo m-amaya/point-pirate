@@ -6,7 +6,7 @@ import { font } from './font';
 import { theme } from './theme';
 
 const globalStyles = css({
-  body: {
+  '#app': {
     'backgroundColor': theme.page.bg,
     'color': theme.page.fg,
     'fontFamily': font.text.family,
@@ -14,6 +14,8 @@ const globalStyles = css({
     'fontWeight': font.text.weight.regular,
     'letterSpacing': '0.01em',
     'lineHeight': 1.43,
+    'height': '100vh',
+    'minHeight': 800,
     'minWidth': breakpoint.sm,
 
     /** Font smoothing */
@@ -29,7 +31,7 @@ const globalStyles = css({
     },
   },
 
-  a: {
+  'a': {
     'color': theme.page.fg,
     'textDecoration': 'none',
 
