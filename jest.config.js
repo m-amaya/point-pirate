@@ -1,5 +1,5 @@
 module.exports = {
   bail: 1,
-  roots: ['<rootDir>/src/store'],
+  roots: ['<rootDir>/client/store'],
   verbose: true,
 };

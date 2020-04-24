@@ -29,5 +29,5 @@ ReactDOM.render(
       <App />
     </Providers>
   </>,
-  document.getElementById('chatter-app'),
+  document.getElementById('app'),
 );

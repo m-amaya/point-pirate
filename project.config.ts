@@ -4,8 +4,8 @@ import { resolve } from 'path';
  * Directory Paths
  */
 const ROOT = resolve(__dirname);
-const SOURCE = resolve(ROOT, 'src');
-const OUTPUT = resolve(ROOT, 'dist');
+const SOURCE = resolve(ROOT, 'client');
+const OUTPUT = resolve(ROOT, 'public');
 
 export const PATHS = {
   entry: resolve(SOURCE, 'index.tsx'),
