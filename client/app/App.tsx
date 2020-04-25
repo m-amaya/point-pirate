@@ -7,8 +7,8 @@ import { RoomDetail } from 'app/pages/RoomDetail';
 export const App: React.FC = hot(() => {
   return (
     <PageLayout>
-      {/* <Rooms /> */}
-      <RoomDetail />
+      <Rooms />
+      {/* <RoomDetail /> */}
     </PageLayout>
   );
 });

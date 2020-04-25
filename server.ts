@@ -1,20 +1,16 @@
-import express from 'express';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import wepbackHotMiddleware from 'webpack-hot-middleware';
+import http from 'http';
+import socketIO from 'socket.io';
 
-import webpackDevConfig from './build/webpack.dev.config';
+import { app } from './app';
 import { SERVER } from './project.config';
 
-const app = express();
-const isDev = process.env.NODE_ENV !== 'production';
+const server = http.createServer(app);
+const io = socketIO(server);
 
-if (isDev) {
-  const compiler = webpack(webpackDevConfig);
-  app.use(webpackDevMiddleware(compiler));
-  app.use(wepbackHotMiddleware(compiler));
-}
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+});
 
-app.listen(SERVER.port, () =>
+server.listen(SERVER.port, () =>
   console.log(`Magic happens on port ${SERVER.port}!`),
 );
