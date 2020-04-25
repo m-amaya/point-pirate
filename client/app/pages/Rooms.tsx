@@ -29,7 +29,7 @@ const rooms: Room[] = [
 export const Rooms: React.FC = () => {
   return (
     <div>
-      <Header />
+      <Header title="Rooms" actionButton={{ kind: 'primary', text: 'ADD' }} />
       {rooms.map((room) => (
         <RoomListItem key={room.id} {...room} />
       ))}

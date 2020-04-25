@@ -3,8 +3,10 @@ import styled from '@emotion/styled';
 import { font } from 'styles/font';
 import { theme } from 'styles/theme';
 
+export type ButtonKind = 'primary' | 'secondary' | 'tertiary';
+
 interface Props {
-  kind: 'primary' | 'secondary' | 'tertiary';
+  kind: ButtonKind;
 }
 
 export const Button: React.FC<Props> = ({ kind, children }) => {

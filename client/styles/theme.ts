@@ -41,6 +41,9 @@ export const theme = {
     user: '#646464',
     activeRoom: colors.green,
     inactiveRoom: colors.gray,
+    notch: '#707070',
+    check: colors.green,
+    times: colors.grayDarker,
   },
   input: {
     bg: colors.black,
@@ -60,5 +63,17 @@ export const theme = {
       bg: colors.gray,
       border: colors.grayDarker,
     },
+  },
+  textarea: {
+    bg: colors.black,
+    fg: colors.white,
+  },
+  ball: {
+    bg: colors.black,
+    bgSelected: colors.red,
+    fg: colors.white,
+  },
+  votebox: {
+    bg: colors.black,
   },
 };

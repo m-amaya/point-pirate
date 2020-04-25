@@ -29,13 +29,13 @@ const Header = styled.div({
 });
 
 const Content = styled.div({
-  margin: '100px auto 0',
+  margin: '50px auto',
   width: '100%',
   maxWidth: 500,
 });
 
 const Footer = styled.div({
-  position: 'absolute',
+  position: 'fixed',
   bottom: 0,
   left: 0,
   backgroundColor: theme.footer.bg,

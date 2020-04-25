@@ -17,6 +17,7 @@ const globalStyles = css({
     'height': '100vh',
     'minHeight': 800,
     'minWidth': breakpoint.sm,
+    'overflowY': 'auto',
 
     /** Font smoothing */
     'MozOsxFontSmoothing': 'grayscale',
