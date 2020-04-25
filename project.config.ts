@@ -31,3 +31,10 @@ export const PATHS = {
 export const SERVER = {
   port: 8000,
 };
+
+/**
+ * Database
+ */
+export const DB = {
+  connUrl: process.env.MONGO_URL || 'mongodb://localhost:27017/point-pirate',
+};
