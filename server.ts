@@ -20,7 +20,12 @@ mongoose.connect(
 );
 
 io.on('connection', async (socket) => {
-  const user = await c.addUser(socket.id);
+  const me = await c.addUser(socket.id);
+  socket.emit('me', me);
+
+  socket.on('updateUsername', (name: string) => {
+    c.updateUsername(socket.id, name);
+  });
 
   socket.on('disconnect', () => {
     c.removeUser(socket.id);

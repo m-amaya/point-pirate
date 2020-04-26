@@ -9,8 +9,9 @@ export async function addUser(id: string) {
 
   try {
     const user = await UserModel.create(newUser);
-    console.log('✔ Added user:', user);
-    return user;
+    const userJson = user.toJSON();
+    console.log('✔ Added user:', userJson);
+    return { id: userJson.id, name: userJson.name };
   } catch (err) {
     console.log('✘ Error adding user:', err);
   }

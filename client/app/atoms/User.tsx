@@ -1,26 +1,35 @@
 import React, {
-  useState,
+  useContext,
+  useEffect,
   useRef,
+  useState,
   ChangeEventHandler,
   KeyboardEventHandler,
 } from 'react';
 import styled from '@emotion/styled';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSmile } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { StoreCtx } from 'store';
 import { theme } from 'styles/theme';
 
 export const User: React.FC = () => {
-  const defaultName = 'Roadtoe Ginger';
+  const { user } = useContext(StoreCtx);
+  const [name, setName] = useState('');
   const inputEl = useRef<HTMLInputElement>(null);
-  const [name, setName] = useState(defaultName);
+
+  useEffect(() => {
+    const sub = user.me$.subscribe((me) => setName(me.name));
+    return () => sub.unsubscribe();
+  }, []);
 
   const onChange: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },
   }) => {
     if (value) {
       setName(value);
+      user.updateUsername(value);
     } else {
-      setName(defaultName);
+      setName(name);
     }
   };
 
