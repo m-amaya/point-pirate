@@ -5,6 +5,7 @@ export async function addRoom(name: string) {
     name,
     members: [],
     sessions: [],
+    createdAt: Date.now(),
   };
 
   try {

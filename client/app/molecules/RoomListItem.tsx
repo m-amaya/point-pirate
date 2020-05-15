@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -6,15 +6,12 @@ import {
   faCommentSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'app/atoms/Button';
+import { StoreCtx } from 'store';
+import { Room } from 'store/rooms.store';
 import { theme } from 'styles/theme';
 
-interface Room {
-  id: string;
-  name: string;
-  isActive: boolean;
-}
-
-export const RoomListItem: React.FC<Room> = ({ name, isActive }) => {
+export const RoomListItem: React.FC<Room> = ({ id, name, isActive }) => {
+  const { rooms } = useContext(StoreCtx);
   const [hoverOnInactiveRoom, setHover] = useState(false);
 
   const onMouseEnter = () => {
@@ -39,7 +36,11 @@ export const RoomListItem: React.FC<Room> = ({ name, isActive }) => {
         <RoomName>{name}</RoomName>
       </Item>
       <ActionItem>
-        {hoverOnInactiveRoom && <Button kind="primary">REMOVE</Button>}
+        {hoverOnInactiveRoom && (
+          <Button kind="primary" onClick={() => rooms.removeRoom(id)}>
+            REMOVE
+          </Button>
+        )}
         {isActive ? (
           <Button kind="secondary">JOIN</Button>
         ) : (

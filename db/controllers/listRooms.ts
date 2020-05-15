@@ -2,7 +2,7 @@ import { RoomModel } from '../models/Room';
 
 export async function listRooms() {
   try {
-    const rooms = await RoomModel.find();
+    const rooms = await RoomModel.find().sort('-createdAt');
     const roomsJson = rooms.map((room) => {
       const { _id, name, members } = room.toJSON();
 
