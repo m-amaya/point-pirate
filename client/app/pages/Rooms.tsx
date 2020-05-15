@@ -1,4 +1,5 @@
 import React from 'react';
+import { AddRoomPopoverContent } from 'app/molecules/AddRoomPopoverContent';
 import { Header } from 'app/molecules/Header';
 import { RoomListItem } from 'app/molecules/RoomListItem';
 
@@ -29,7 +30,17 @@ const rooms: Room[] = [
 export const Rooms: React.FC = () => {
   return (
     <div>
-      <Header title="Rooms" actionButton={{ kind: 'primary', text: 'ADD' }} />
+      <Header
+        title="Rooms"
+        actionButton={{
+          kind: 'primary',
+          text: 'ADD',
+          popover: {
+            content: <AddRoomPopoverContent />,
+            preferredPosition: 'right',
+          },
+        }}
+      />
       {rooms.map((room) => (
         <RoomListItem key={room.id} {...room} />
       ))}

@@ -2,9 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, ButtonKind } from 'app/atoms/Button';
+import { Button, Props as ButtonProps } from 'app/atoms/Button';
 import { Divider } from 'app/atoms/Divider';
 import { Title } from 'app/atoms/Title';
+
+interface ActionButtonProps extends ButtonProps {
+  text: string;
+}
 
 interface Props {
   withIcon?: {
@@ -12,10 +16,7 @@ interface Props {
     icon: IconDefinition;
   };
   title: string;
-  actionButton: {
-    kind: ButtonKind;
-    text: string;
-  };
+  actionButton: ActionButtonProps;
 }
 
 export const Header: React.FC<Props> = ({ withIcon, title, actionButton }) => {
@@ -26,7 +27,7 @@ export const Header: React.FC<Props> = ({ withIcon, title, actionButton }) => {
           {withIcon && <Icon icon={withIcon.icon} color={withIcon.color} />}
           <Title>{title}</Title>
         </TitleWrapper>
-        <Button kind={actionButton.kind}>{actionButton.text}</Button>
+        <Button {...actionButton}>{actionButton.text}</Button>
       </Wrapper>
       <Divider />
     </>

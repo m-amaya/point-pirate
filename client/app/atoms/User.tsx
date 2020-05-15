@@ -67,7 +67,7 @@ const Icon = styled(FontAwesomeIcon)({
 const Name = styled.input({
   'backgroundColor': 'transparent',
   'border': 'none',
-  'borderRadius': '3px',
+  'borderRadius': 3,
   'color': theme.input.fg,
   'cursor': 'pointer',
   'fontSize': '1rem',

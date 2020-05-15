@@ -2,17 +2,33 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { font } from 'styles/font';
 import { theme } from 'styles/theme';
+import { Popover, Props as PopoverProps } from './Popover';
 
 export type ButtonKind = 'primary' | 'secondary' | 'tertiary';
 
-interface Props {
+export interface Props {
   kind: ButtonKind;
+  popover?: PopoverProps;
+  onClick?: () => void;
 }
 
-export const Button: React.FC<Props> = ({ kind, children }) => {
-  return (
+export const Button: React.FC<Props> = ({
+  kind,
+  popover,
+  onClick,
+  children,
+}) => {
+  return popover ? (
+    <Popover {...popover}>
+      <BaseButton kind={kind} onClick={onClick}>
+        {children}
+      </BaseButton>
+    </Popover>
+  ) : (
     <div>
-      <BaseButton kind={kind}>{children}</BaseButton>
+      <BaseButton kind={kind} onClick={onClick}>
+        {children}
+      </BaseButton>
     </div>
   );
 };

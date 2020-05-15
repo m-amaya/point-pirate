@@ -6,7 +6,7 @@ export const Divider = styled.div({
   'backgroundColor': theme.page.divider.shadow,
   'height': 1,
   'width': '100%',
-  'margin': '1rem 0 2rem',
+  'margin': '0.5rem 0 2rem',
   '&:after': {
     content: '" "',
     position: 'absolute',

@@ -49,6 +49,10 @@ export const theme = {
     bg: colors.black,
     fg: colors.white,
   },
+  popover: {
+    bg: colors.black,
+    fg: colors.white,
+  },
   button: {
     fg: colors.white,
     primary: {
