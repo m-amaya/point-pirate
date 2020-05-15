@@ -3,6 +3,7 @@ import { addUser } from './addUser';
 import { addVoteSession } from './addVoteSession';
 import { endVote } from './endVote';
 import { joinRoom } from './joinRoom';
+import { listRooms } from './listRooms';
 import { leaveRoom } from './leaveRoom';
 import { removeRoom } from './removeRoom';
 import { removeUser } from './removeUser';
@@ -18,6 +19,7 @@ export const c = {
   addVoteSession,
   endVote,
   joinRoom,
+  listRooms,
   leaveRoom,
   removeRoom,
   removeUser,

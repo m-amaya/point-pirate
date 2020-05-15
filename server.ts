@@ -23,8 +23,17 @@ io.on('connection', async (socket) => {
   const me = await c.addUser(socket.id);
   socket.emit('me', me);
 
+  const rooms = await c.listRooms();
+  socket.emit('listRooms', rooms);
+
   socket.on('updateUsername', (name: string) => {
     c.updateUsername(socket.id, name);
+  });
+
+  socket.on('addRoom', async (roomName: string) => {
+    await c.addRoom(roomName);
+    const rooms = await c.listRooms();
+    io.emit('listRooms', rooms);
   });
 
   socket.on('disconnect', () => {

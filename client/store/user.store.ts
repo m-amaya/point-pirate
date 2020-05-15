@@ -1,7 +1,4 @@
 import { Observable, fromEvent } from 'rxjs';
-import io from 'socket.io-client';
-
-const socket = io();
 
 export interface User {
   id: string;
@@ -12,7 +9,7 @@ export class UserStore {
   me$: Observable<User>;
   updateUsername: (name: string) => void;
 
-  constructor() {
+  constructor(socket: SocketIOClient.Socket) {
     this.me$ = fromEvent<User>(socket, 'me');
     this.updateUsername = (name) => {
       socket.emit('updateUsername', name);

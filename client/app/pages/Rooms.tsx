@@ -1,33 +1,19 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AddRoomPopoverContent } from 'app/molecules/AddRoomPopoverContent';
 import { Header } from 'app/molecules/Header';
 import { RoomListItem } from 'app/molecules/RoomListItem';
-
-interface Room {
-  id: string;
-  name: string;
-  isActive: boolean;
-}
-
-const rooms: Room[] = [
-  {
-    id: '0',
-    name: 'WinTogether',
-    isActive: true,
-  },
-  {
-    id: '1',
-    name: 'Sweepstakes',
-    isActive: true,
-  },
-  {
-    id: '2',
-    name: 'Next App',
-    isActive: false,
-  },
-];
+import { StoreCtx } from 'store';
+import { Room } from 'store/rooms.store';
 
 export const Rooms: React.FC = () => {
+  const { rooms } = useContext(StoreCtx);
+  const [roomList, setRoomList] = useState<Room[]>([]);
+
+  useEffect(() => {
+    const sub = rooms.list$.subscribe((list) => setRoomList(list));
+    return () => sub.unsubscribe();
+  }, []);
+
   return (
     <div>
       <Header
@@ -41,7 +27,7 @@ export const Rooms: React.FC = () => {
           },
         }}
       />
-      {rooms.map((room) => (
+      {roomList.map((room) => (
         <RoomListItem key={room.id} {...room} />
       ))}
     </div>

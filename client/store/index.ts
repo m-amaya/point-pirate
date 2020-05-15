@@ -1,14 +1,19 @@
 import React from 'react';
+import io from 'socket.io-client';
+import { RoomsStore } from './rooms.store';
 import { UserStore } from './user.store';
 
 /**
  * Store, created with initial state
  */
 export class Store {
+  rooms: RoomsStore;
   user: UserStore;
+  private socket = io();
 
   constructor() {
-    this.user = new UserStore();
+    this.rooms = new RoomsStore(this.socket);
+    this.user = new UserStore(this.socket);
   }
 }
 

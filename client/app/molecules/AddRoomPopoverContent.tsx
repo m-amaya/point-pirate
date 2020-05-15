@@ -1,27 +1,47 @@
 import React, {
+  useContext,
+  useEffect,
   useRef,
   useState,
-  KeyboardEventHandler,
   ChangeEventHandler,
+  KeyboardEventHandler,
 } from 'react';
 import styled from '@emotion/styled';
 import { Button } from 'app/atoms/Button';
 import { PopoverContentProps } from 'app/atoms/Popover';
+import { StoreCtx } from 'store';
 import { theme } from 'styles/theme';
 
 export const AddRoomPopoverContent: React.FC<PopoverContentProps> = ({
   closePopover,
 }) => {
+  const { rooms } = useContext(StoreCtx);
   const inputEl = useRef<HTMLInputElement>(null);
   const [roomName, setRoomName] = useState('');
+
+  useEffect(() => {
+    if (inputEl && inputEl.current) {
+      inputEl.current.focus();
+    }
+  }, [inputEl]);
+
+  const addRoom = () => {
+    if (roomName) {
+      rooms.addRoom(roomName);
+    }
+
+    if (closePopover) {
+      closePopover();
+    }
+  };
 
   const onChange: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },
   }) => setRoomName(value);
 
   const onKeyPress: KeyboardEventHandler<HTMLInputElement> = ({ key }) => {
-    if (key === 'Enter' && closePopover && roomName) {
-      closePopover();
+    if (key === 'Enter') {
+      addRoom();
     }
   };
 
@@ -35,7 +55,7 @@ export const AddRoomPopoverContent: React.FC<PopoverContentProps> = ({
         onChange={onChange}
         onKeyPress={onKeyPress}
       />
-      <Button kind="secondary" onClick={closePopover}>
+      <Button kind="secondary" onClick={addRoom}>
         ENTER
       </Button>
     </Wrapper>
