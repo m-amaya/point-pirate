@@ -1,6 +1,5 @@
 import React, {
   useContext,
-  useEffect,
   useRef,
   useState,
   ChangeEventHandler,
@@ -9,6 +8,7 @@ import React, {
 import styled from '@emotion/styled';
 import { faSmile } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSubscription } from 'observable-hooks';
 import { StoreCtx } from 'store';
 import { theme } from 'styles/theme';
 
@@ -17,10 +17,7 @@ export const User: React.FC = () => {
   const [name, setName] = useState('');
   const inputEl = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const sub = user.me$.subscribe((me) => setName(me.name));
-    return () => sub.unsubscribe();
-  }, []);
+  useSubscription(user.meSubject, (me) => setName(me.name));
 
   const onChange: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },

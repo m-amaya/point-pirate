@@ -1,4 +1,4 @@
-import { Observable, fromEvent } from 'rxjs';
+import { fromEvent, Observable, BehaviorSubject } from 'rxjs';
 
 export interface User {
   id: string;
@@ -6,13 +6,24 @@ export interface User {
 }
 
 export class UserStore {
-  me$: Observable<User>;
-  updateUsername: (name: string) => void;
+  private socket: SocketIOClient.Socket;
+  private me$: Observable<User>;
+
+  public meSubject: BehaviorSubject<User>;
 
   constructor(socket: SocketIOClient.Socket) {
+    this.socket = socket;
     this.me$ = fromEvent<User>(socket, 'me');
-    this.updateUsername = (name) => {
-      socket.emit('updateUsername', name);
-    };
+    this.meSubject = new BehaviorSubject<User>({
+      id: '',
+      name: '',
+    });
+
+    this.me$.subscribe({
+      next: (v) => this.meSubject.next(v),
+    });
   }
+
+  public updateUsername = (name: string) =>
+    this.socket.emit('updateUsername', name);
 }
