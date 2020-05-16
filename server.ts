@@ -26,8 +26,8 @@ io.on('connection', async (socket) => {
   const rooms = await c.listRooms();
   socket.emit('listRooms', rooms);
 
-  socket.on('updateUsername', (name: string) => {
-    c.updateUsername(socket.id, name);
+  socket.on('updateUsername', async (name: string) => {
+    await c.updateUsername(me.id, name);
   });
 
   socket.on('addRoom', async (roomName: string) => {
@@ -38,12 +38,16 @@ io.on('connection', async (socket) => {
 
   socket.on('joinRoom', async (roomId: string) => {
     await c.joinRoom(roomId, me.id);
-    const rooms = await c.listRooms();
-    io.emit('listRooms', rooms);
+    // const rooms = await c.listRooms();
+    // io.emit('listRooms', rooms);
+  });
+
+  socket.on('leaveRoom', async () => {
+    await c.leaveRoom(mongoose.Types.ObjectId(socket.id));
   });
 
   socket.on('removeRoom', async (roomId: string) => {
-    await c.removeRoom(roomId);
+    await c.removeRoom(mongoose.Types.ObjectId(roomId));
     const rooms = await c.listRooms();
     io.emit('listRooms', rooms);
   });

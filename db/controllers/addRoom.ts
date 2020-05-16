@@ -12,7 +12,6 @@ export async function addRoom(name: string) {
     const room = await RoomModel.create(newRoom);
     const roomJson = room.toJSON();
     console.log('✔ Added room:', roomJson);
-    return roomJson;
   } catch (err) {
     console.log('✘ Error adding room:', err);
   }

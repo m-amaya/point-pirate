@@ -7,9 +7,10 @@ const schema = new Schema({
   votes: [
     {
       userId: Types.ObjectId,
-      value: Types.ObjectId,
+      value: Number,
     },
   ],
+  createdAt: Date,
 });
 
 export const VoteSessionModel = model('VoteSession', schema);

@@ -44,11 +44,11 @@ export const RoomListItem: React.FC<Room> = ({ id, name, isActive }) => {
         )}
         {isActive ? (
           <Button kind="secondary">
-            <Link to={`/rooms/${name}`}>JOIN</Link>
+            <Link to={`/rooms/${id}`}>JOIN</Link>
           </Button>
         ) : (
           <Button kind="tertiary">
-            <Link to={`/rooms/${name}`}>START</Link>
+            <Link to={`/rooms/${id}`}>START</Link>
           </Button>
         )}
       </ActionItem>

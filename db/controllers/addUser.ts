@@ -1,7 +1,12 @@
 import generateName from 'sillyname';
 import { UserModel } from '../models/User';
 
-export async function addUser(id: string) {
+interface User {
+  id: string;
+  name: string;
+}
+
+export async function addUser(id: string): Promise<User> {
   const newUser = {
     _id: id,
     name: generateName(),
@@ -11,7 +16,7 @@ export async function addUser(id: string) {
     const user = await UserModel.create(newUser);
     const userJson = user.toJSON();
     console.log('✔ Added user:', userJson);
-    return { id: userJson.id, name: userJson.name };
+    return { id: userJson._id, name: userJson.name };
   } catch (err) {
     console.log('✘ Error adding user:', err);
   }

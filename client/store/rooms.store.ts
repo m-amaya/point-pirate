@@ -24,8 +24,6 @@ export class RoomsStore {
 
   public addRoom = (roomName: string) => this.socket.emit('addRoom', roomName);
 
-  public joinRoom = (roomId: string) => this.socket.emit('joinRoom', roomId);
-
   public removeRoom = (roomId: string) =>
     this.socket.emit('removeRoom', roomId);
 }
