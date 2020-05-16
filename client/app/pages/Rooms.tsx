@@ -1,18 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useObservableState } from 'observable-hooks';
+import React, { useContext } from 'react';
 import { AddRoomPopoverContent } from 'app/molecules/AddRoomPopoverContent';
 import { Header } from 'app/molecules/Header';
 import { RoomListItem } from 'app/molecules/RoomListItem';
 import { StoreCtx } from 'store';
-import { Room } from 'store/rooms.store';
 
 export const Rooms: React.FC = () => {
   const { rooms } = useContext(StoreCtx);
-  const [roomList, setRoomList] = useState<Room[]>([]);
-
-  useEffect(() => {
-    const sub = rooms.list$.subscribe((list) => setRoomList(list));
-    return () => sub.unsubscribe();
-  }, []);
+  const roomList = useObservableState(rooms.listSubject, []);
 
   return (
     <div>

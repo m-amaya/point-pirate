@@ -36,6 +36,12 @@ io.on('connection', async (socket) => {
     io.emit('listRooms', rooms);
   });
 
+  socket.on('joinRoom', async (roomId: string) => {
+    await c.joinRoom(roomId, me.id);
+    const rooms = await c.listRooms();
+    io.emit('listRooms', rooms);
+  });
+
   socket.on('removeRoom', async (roomId: string) => {
     await c.removeRoom(roomId);
     const rooms = await c.listRooms();

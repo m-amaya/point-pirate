@@ -5,6 +5,7 @@ import {
   faCommentDots,
   faCommentSlash,
 } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import { Button } from 'app/atoms/Button';
 import { StoreCtx } from 'store';
 import { Room } from 'store/rooms.store';
@@ -42,9 +43,13 @@ export const RoomListItem: React.FC<Room> = ({ id, name, isActive }) => {
           </Button>
         )}
         {isActive ? (
-          <Button kind="secondary">JOIN</Button>
+          <Button kind="secondary">
+            <Link to={`/rooms/${name}`}>JOIN</Link>
+          </Button>
         ) : (
-          <Button kind="tertiary">START</Button>
+          <Button kind="tertiary">
+            <Link to={`/rooms/${name}`}>START</Link>
+          </Button>
         )}
       </ActionItem>
     </Wrapper>

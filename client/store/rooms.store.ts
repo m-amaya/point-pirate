@@ -1,4 +1,4 @@
-import { Observable, fromEvent } from 'rxjs';
+import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
 
 export interface Room {
   id: string;
@@ -7,17 +7,25 @@ export interface Room {
 }
 
 export class RoomsStore {
-  list$: Observable<Room[]>;
-  addRoom: (roomName: string) => void;
-  removeRoom: (roomId: string) => void;
+  private socket: SocketIOClient.Socket;
+  private listRooms$: Observable<Room[]>;
+
+  public listSubject: BehaviorSubject<Room[]>;
 
   constructor(socket: SocketIOClient.Socket) {
-    this.list$ = fromEvent<Room[]>(socket, 'listRooms');
-    this.addRoom = (roomName) => {
-      socket.emit('addRoom', roomName);
-    };
-    this.removeRoom = (roomId) => {
-      socket.emit('removeRoom', roomId);
-    };
+    this.socket = socket;
+    this.listRooms$ = fromEvent<Room[]>(socket, 'listRooms');
+    this.listSubject = new BehaviorSubject<Room[]>([]);
+
+    this.listRooms$.subscribe({
+      next: (v) => this.listSubject.next(v),
+    });
   }
+
+  public addRoom = (roomName: string) => this.socket.emit('addRoom', roomName);
+
+  public joinRoom = (roomId: string) => this.socket.emit('joinRoom', roomId);
+
+  public removeRoom = (roomId: string) =>
+    this.socket.emit('removeRoom', roomId);
 }

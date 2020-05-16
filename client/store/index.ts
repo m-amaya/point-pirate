@@ -7,9 +7,9 @@ import { UserStore } from './user.store';
  * Store, created with initial state
  */
 export class Store {
+  private socket = io();
   rooms: RoomsStore;
   user: UserStore;
-  private socket = io();
 
   constructor() {
     this.rooms = new RoomsStore(this.socket);

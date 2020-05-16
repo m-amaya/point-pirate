@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { App } from 'app/App';
 import { Store, StoreCtx } from 'store';
 import { GlobalStyles } from 'styles/GlobalStyles';
@@ -13,7 +14,9 @@ const store = new Store();
  * Context Providers
  */
 const Providers: React.FC = ({ children }) => (
-  <StoreCtx.Provider value={store}>{children}</StoreCtx.Provider>
+  <StoreCtx.Provider value={store}>
+    <Router>{children}</Router>
+  </StoreCtx.Provider>
 );
 
 /**

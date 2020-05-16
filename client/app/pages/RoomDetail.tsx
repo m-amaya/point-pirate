@@ -16,7 +16,7 @@ export const RoomDetail: React.FC = () => {
       />
       {/* <SessionStartPanel /> */}
       {/* <SessionVotingPanel /> */}
-      <SessionResultsPanel />
+      {/* <SessionResultsPanel /> */}
     </div>
   );
 };
