@@ -1,26 +1,31 @@
-import { fromEvent, Observable, BehaviorSubject } from 'rxjs';
+import { fromEvent, BehaviorSubject } from 'rxjs';
 
 export interface User {
   id: string;
   name: string;
+  inRoom: string | null;
+  createdAt: number | null;
 }
+
+const INIT_USER: User = {
+  id: '',
+  name: '',
+  inRoom: null,
+  createdAt: null,
+};
 
 export class UserStore {
   private socket: SocketIOClient.Socket;
-  private me$: Observable<User>;
-
-  public meSubject: BehaviorSubject<User>;
+  public me$: BehaviorSubject<User>;
 
   constructor(socket: SocketIOClient.Socket) {
     this.socket = socket;
-    this.me$ = fromEvent<User>(socket, 'me');
-    this.meSubject = new BehaviorSubject<User>({
-      id: '',
-      name: '',
-    });
+    this.me$ = new BehaviorSubject<User>(INIT_USER);
 
-    this.me$.subscribe({
-      next: (v) => this.meSubject.next(v),
+    const meChannel$ = fromEvent<User>(socket, 'user:me');
+
+    meChannel$.subscribe({
+      next: (me) => this.me$.next(me),
     });
   }
 

@@ -1,4 +1,5 @@
-import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
+import { BehaviorSubject, fromEvent } from 'rxjs';
+import { RoomDetail } from './room-detail.store';
 
 export interface Room {
   id: string;
@@ -8,17 +9,23 @@ export interface Room {
 
 export class RoomsStore {
   private socket: SocketIOClient.Socket;
-  private listRooms$: Observable<Room[]>;
-
-  public listSubject: BehaviorSubject<Room[]>;
+  public list$: BehaviorSubject<Room[]>;
 
   constructor(socket: SocketIOClient.Socket) {
     this.socket = socket;
-    this.listRooms$ = fromEvent<Room[]>(socket, 'listRooms');
-    this.listSubject = new BehaviorSubject<Room[]>([]);
+    this.list$ = new BehaviorSubject<Room[]>([]);
 
-    this.listRooms$.subscribe({
-      next: (v) => this.listSubject.next(v),
+    const listChannel$ = fromEvent<RoomDetail[]>(socket, 'room:list');
+
+    listChannel$.subscribe({
+      next: (l) =>
+        this.list$.next(
+          l.map(({ id, name, members }) => ({
+            id,
+            name,
+            isActive: members.length > 0,
+          })),
+        ),
     });
   }
 
