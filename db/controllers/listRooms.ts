@@ -1,5 +1,9 @@
 import { RoomModel } from '../models/Room';
 
+/**
+ * List all rooms.
+ * @returns List of rooms
+ */
 export async function listRooms() {
   try {
     const rooms = await RoomModel.find().sort('-createdAt');

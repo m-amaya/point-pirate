@@ -3,9 +3,10 @@ import { Vote, VoteSession } from '../../models/_types';
 import { UserModel } from '../../models/User';
 import { fitUser } from './user';
 
-export const createVoteSession = (): Partial<VoteSession> => ({
+export const createVoteSession = (roomId: string): Partial<VoteSession> => ({
   storyDescription: '',
-  startDate: Date.now(),
+  inRoom: roomId,
+  createdAt: Date.now(),
 });
 
 export const fitVote = (u: Document, point: number): Vote => ({
@@ -29,5 +30,6 @@ export const fitVoteSession = async (v: Document): Promise<VoteSession> => {
     endDate: voteSession.endDate,
     votes: await Promise.all(votes),
     inRoom: voteSession.inRoom,
+    createdAt: voteSession.createdAt,
   };
 };

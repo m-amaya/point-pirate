@@ -1,5 +1,10 @@
 import { RoomModel } from '../models/Room';
 
+/**
+ * Create new room.
+ * @param name Name of room
+ * @returns New room
+ */
 export async function addRoom(name: string) {
   const newRoom = {
     name,

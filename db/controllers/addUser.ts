@@ -6,9 +6,14 @@ interface User {
   name: string;
 }
 
-export async function addUser(id: string): Promise<User> {
+/**
+ * Create new user.
+ * @param userId Socket id
+ * @returns New user
+ */
+export async function addUser(userId: string): Promise<User> {
   const newUser = {
-    _id: id,
+    _id: userId,
     name: generateName(),
   };
 

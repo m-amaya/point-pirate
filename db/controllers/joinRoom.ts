@@ -9,6 +9,12 @@ interface Room {
   sessions: string[];
 }
 
+/**
+ * Add User to room members. Update user's current room.
+ * @param roomId Room the user wants to join
+ * @param userId User to join room
+ * @returns [Updated room, Updated user]
+ */
 export async function joinRoom(roomId: string, userId: string) {
   try {
     let room = await RoomModel.findById(roomId);

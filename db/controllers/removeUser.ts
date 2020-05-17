@@ -1,8 +1,13 @@
 import { UserModel } from '../models/User';
 
-export async function removeUser(id: string) {
+/**
+ * Remove specified user.
+ * @param userId User to remove
+ * @returns Removed room
+ */
+export async function removeUser(userId: string) {
   try {
-    const user = await UserModel.findByIdAndDelete(id);
+    const user = await UserModel.findByIdAndDelete(userId);
     console.log('✔ Removed user:', user);
     return;
   } catch (err) {

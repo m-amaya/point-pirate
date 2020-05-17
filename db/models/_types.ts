@@ -17,6 +17,7 @@ export interface VoteSession {
   endDate: number;
   votes: Vote[];
   inRoom: string;
+  createdAt: number;
 }
 
 export interface Room {

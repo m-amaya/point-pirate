@@ -1,9 +1,14 @@
 import { Types } from 'mongoose';
 import { RoomModel } from '../models/Room';
 
-export async function removeRoom(id: Types.ObjectId) {
+/**
+ * Remove specified room.
+ * @param roomId Room to remove
+ * @returns Removed room
+ */
+export async function removeRoom(roomId: string) {
   try {
-    const room = await RoomModel.findByIdAndDelete(id);
+    const room = await RoomModel.findByIdAndDelete(roomId);
     console.log('✔ Removed room:', room);
     return;
   } catch (err) {
