@@ -7,7 +7,6 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "baseUrl": ".",
-    "types": ["typings.d.ts"]
+    "baseUrl": "."
   }
 }

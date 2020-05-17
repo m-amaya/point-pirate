@@ -1,8 +1,9 @@
-import { Schema, model } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 
 const schema = new Schema({
   _id: String,
   name: String,
+  inRoom: Types.ObjectId,
   createdAt: Date,
 });
 

@@ -1,13 +1,26 @@
-import { Schema, Types, model } from 'mongoose';
+import { Document, Schema, Types, model, Model } from 'mongoose';
 
-const schema = new Schema({
+interface VoteModelDocument {
+  userId: string;
+  point: number;
+}
+
+interface VoteSessionDocument {
+  storyDescription: string;
+  startTime: number;
+  endTime: number;
+  votes: VoteModelDocument[];
+  createdAt: number;
+}
+
+const schema = new Schema<VoteSessionDocument>({
   storyDescription: String,
   startTime: Date,
   endTime: Date,
   votes: [
     {
       userId: Types.ObjectId,
-      value: Number,
+      point: Number,
     },
   ],
   createdAt: Date,
