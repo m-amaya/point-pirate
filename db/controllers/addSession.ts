@@ -9,9 +9,7 @@ import { createSession, fitSession } from '../utils/session';
  * @param roomId Room to add vote session
  * @returns [New vote session, Updated room]
  */
-export async function addSession(
-  roomId: string,
-): Promise<{ 0: Session; 1: Room }> {
+export async function addSession(roomId: string): Promise<[Session, Room]> {
   try {
     const newSession = createSession(roomId);
     const s = await SessionModel.create(newSession);

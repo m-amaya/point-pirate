@@ -1,3 +1,4 @@
+import { sort } from 'ramda';
 import { Room, User, Session } from '../models/_types';
 import { RoomDocument } from '../models/Room';
 import { SessionModel } from '../models/Session';
@@ -27,11 +28,16 @@ export const fitRoom = async (r: RoomDocument): Promise<Room> => {
     },
   );
 
+  const sortedSessions = sort(
+    (sA, sB) => sB.createdAt - sA.createdAt,
+    await Promise.all(sessions),
+  );
+
   return {
     id: r._id,
     name: r.name,
     members: await Promise.all(members),
-    sessions: await Promise.all(sessions),
+    sessions: sortedSessions,
     createdAt: r.createdAt,
   };
 };

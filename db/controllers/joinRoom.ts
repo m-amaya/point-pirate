@@ -14,7 +14,7 @@ import { fitUser } from '../utils/user';
 export async function joinRoom(
   roomId: string,
   userId: string,
-): Promise<{ 0: Room; 1: User }> {
+): Promise<[Room, User]> {
   try {
     let r = await RoomModel.findById(roomId);
     let u = await UserModel.findById(userId);

@@ -9,9 +9,7 @@ import { addSession } from './addSession';
  * @param sessionId Vote session to retake
  * @returns [New vote session, Updated room]
  */
-export async function redoSession(
-  sessionId: string,
-): Promise<{ 0: Session; 1: Room }> {
+export async function redoSession(sessionId: string): Promise<[Session, Room]> {
   try {
     let s = await SessionModel.findByIdAndDelete(sessionId);
     let r = await RoomModel.findById(s.inRoom);

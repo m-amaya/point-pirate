@@ -10,7 +10,7 @@ import { fitUser } from '../utils/user';
  * @param userId User to leave rooms
  * @returns [Updated room, Updated user]
  */
-export async function leaveRoom(userId: string): Promise<{ 0: Room; 1: User }> {
+export async function leaveRoom(userId: string): Promise<[Room, User]> {
   try {
     let u = await UserModel.findById(userId);
     let r = await RoomModel.findById(u.inRoom);

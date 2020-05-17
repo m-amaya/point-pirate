@@ -21,37 +21,95 @@ mongoose.connect(
 
 io.on('connection', async (socket) => {
   const me = await c.addUser(socket.id);
-  socket.emit('me', me);
 
-  const rooms = await c.listRooms();
-  socket.emit('listRooms', rooms);
+  /**
+   * Initial events
+   */
+  socket.emit('user:me', me);
+  socket.emit('room:list', await c.listRooms());
 
-  socket.on('updateUsername', async (name: string) => {
-    await c.updateUsername(me.id, name);
+  /**
+   * Received user events
+   */
+  socket.on('user:me:update', async (name: string) => {
+    const user = await c.updateUsername(me.id, name);
+    socket.emit('user:me', user);
   });
 
-  socket.on('addRoom', async (roomName: string) => {
+  /**
+   * Received room events
+   */
+  socket.on('room:add', async (roomName: string) => {
     await c.addRoom(roomName);
-    const rooms = await c.listRooms();
-    io.emit('listRooms', rooms);
+    io.emit('room:list', await c.listRooms());
   });
 
-  socket.on('joinRoom', async (roomId: string) => {
-    await c.joinRoom(roomId, me.id);
-    // const rooms = await c.listRooms();
-    // io.emit('listRooms', rooms);
+  socket.on('room:join', async (roomId: string) => {
+    const [room, user] = await c.joinRoom(roomId, me.id);
+    socket.join(room.id, async () => {
+      io.to(room.id).emit('room:current', room);
+      io.to(room.id).emit('session:current', room.sessions[0]);
+      socket.emit('user:me', user);
+      io.emit('room:list', await c.listRooms());
+    });
   });
 
-  socket.on('leaveRoom', async () => {
-    await c.leaveRoom(mongoose.Types.ObjectId(socket.id));
+  socket.on('room:leave', async () => {
+    const [room, user] = await c.leaveRoom(me.id);
+    socket.leave(room.id, async () => {
+      io.to(room.id).emit('room:current', room);
+      socket.emit('user:me', user);
+      io.emit('room:list', await c.listRooms());
+    });
   });
 
-  socket.on('removeRoom', async (roomId: string) => {
-    await c.removeRoom(mongoose.Types.ObjectId(roomId));
-    const rooms = await c.listRooms();
-    io.emit('listRooms', rooms);
+  socket.on('room:remove', async (roomId: string) => {
+    await c.removeRoom(roomId);
+    io.emit('room:list', await c.listRooms());
   });
 
+  /**
+   * Received session events
+   */
+  socket.on('session:add', async (roomId: string) => {
+    const [session, room] = await c.addSession(roomId);
+    io.to(room.id).emit('session:current', session);
+    io.to(room.id).emit('room:current', room);
+    io.emit('room:list', await c.listRooms());
+  });
+
+  socket.on('session:start', async (sessionId: string) => {
+    const session = await c.startSession(sessionId);
+    io.to(session.inRoom).emit('session:current', session);
+  });
+
+  socket.on('session:end', async (sessionId: string) => {
+    const session = await c.endSession(sessionId);
+    io.to(session.inRoom).emit('session:current', session);
+  });
+
+  socket.on('session:redo', async (sessionId: string) => {
+    const [session, room] = await c.redoSession(sessionId);
+    io.to(room.id).emit('session:current', session);
+    io.to(room.id).emit('room:current', room);
+  });
+
+  socket.on(
+    'session:description:update',
+    async (sessionId: string, description: string) => {
+      const session = await c.updateStoryDescription(sessionId, description);
+      io.to(session.inRoom).emit('session:current', session);
+    },
+  );
+
+  socket.on('session:vote', async (sessionId: string, points: number) => {
+    const session = await c.castVote(sessionId, me.id, points);
+    io.to(session.inRoom).emit('session:current', session);
+  });
+
+  /**
+   * Disconnect event
+   */
   socket.on('disconnect', () => {
     c.removeUser(socket.id);
   });
