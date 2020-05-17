@@ -1,4 +1,6 @@
+import { User } from '../models/_types';
 import { UserModel } from '../models/User';
+import { fitUser } from '../utils/user';
 
 /**
  * Update user's name.
@@ -6,15 +8,18 @@ import { UserModel } from '../models/User';
  * @param name New name
  * @returns Updated user
  */
-export async function updateUsername(userId: string, name: string) {
+export async function updateUsername(
+  userId: string,
+  name: string,
+): Promise<User> {
   try {
-    const user = await UserModel.findByIdAndUpdate(
-      userId,
-      { name },
-      { new: true },
-    );
-    const userJson = user.toJSON();
-    console.log('✔ Updated username:', userJson);
+    let u = await UserModel.findById(userId);
+    u.name = name;
+    u = await u.save();
+
+    const user = fitUser(u);
+    console.log('✔ Updated username:', user);
+    return user;
   } catch (err) {
     console.log('✘ Error updating username:', err);
   }

@@ -1,8 +1,12 @@
 import { User } from '../models/_types';
 import { UserDocument } from '../models/User';
 
-export const createUser = (id: string, name: string): User => ({
-  id,
+interface NewUser extends Partial<User> {
+  _id: string;
+}
+
+export const createUser = (id: string, name: string): NewUser => ({
+  _id: id,
   name,
   inRoom: null,
   createdAt: Date.now(),
