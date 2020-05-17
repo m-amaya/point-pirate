@@ -1,22 +1,16 @@
+import { Room } from '../models/_types';
 import { RoomModel } from '../models/Room';
+import { fitRoom } from '../utils/room';
 
 /**
  * List all rooms.
  * @returns List of rooms
  */
-export async function listRooms() {
+export async function listRooms(): Promise<Room[]> {
   try {
-    const rooms = await RoomModel.find().sort('-createdAt');
-    const roomsJson = rooms.map((room) => {
-      const { _id, name, members } = room.toJSON();
-
-      return {
-        id: _id,
-        name,
-        isActive: members.length > 0,
-      };
-    });
-    return roomsJson;
+    const rList = await RoomModel.find().sort('-createdAt');
+    const rooms = await rList.map(fitRoom);
+    return Promise.all(rooms);
   } catch (err) {
     console.log('✘ Error retrieving rooms:', err);
   }

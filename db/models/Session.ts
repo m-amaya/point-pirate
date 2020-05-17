@@ -2,25 +2,27 @@ import { Document, Schema, Types, model } from 'mongoose';
 
 export interface SessionDocument extends Document {
   storyDescription: string;
-  startTime: number;
-  endTime: number;
+  startDate: number;
+  endDate: number;
   votes: {
     userId: string;
     point: number;
   }[];
+  inRoom: string;
   createdAt: number;
 }
 
 const schema = new Schema({
   storyDescription: String,
-  startTime: Date,
-  endTime: Date,
+  startDate: Date,
+  endDate: Date,
   votes: [
     {
       userId: Types.ObjectId,
       point: Number,
     },
   ],
+  inRoom: Types.ObjectId,
   createdAt: Date,
 });
 

@@ -16,8 +16,7 @@ export const fitVote = (u: UserDocument, point: number): Vote => ({
 });
 
 export const fitSession = async (s: SessionDocument): Promise<Session> => {
-  const session = s.toJSON();
-  const votes: Promise<Vote>[] = session.votes.map(
+  const votes: Promise<Vote>[] = s.votes.map(
     async ({ userId, point }): Promise<Vote> => {
       const u = await UserModel.findById(userId);
       return fitVote(u, point);
@@ -25,12 +24,12 @@ export const fitSession = async (s: SessionDocument): Promise<Session> => {
   );
 
   return {
-    id: session._id,
-    storyDescription: session.storyDescription,
-    startDate: session.startDate,
-    endDate: session.endDate,
+    id: s._id,
+    storyDescription: s.storyDescription,
+    startDate: s.startDate,
+    endDate: s.endDate,
     votes: await Promise.all(votes),
-    inRoom: session.inRoom,
-    createdAt: session.createdAt,
+    inRoom: s.inRoom,
+    createdAt: s.createdAt,
   };
 };

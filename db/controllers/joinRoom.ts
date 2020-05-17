@@ -1,7 +1,9 @@
-import { includes, not } from 'ramda';
+import { equals, not } from 'ramda';
 import { Room, User } from '../models/_types';
 import { RoomModel } from '../models/Room';
 import { UserModel } from '../models/User';
+import { fitRoom } from '../utils/room';
+import { fitUser } from '../utils/user';
 
 /**
  * Add User to room members. Update user's current room.
@@ -15,31 +17,25 @@ export async function joinRoom(
 ): Promise<{ 0: Room; 1: User }> {
   try {
     let r = await RoomModel.findById(roomId);
-    let rJson = r.toJSON();
+    let u = await UserModel.findById(userId);
 
-    if (not(includes(userId, rJson.members))) {
+    if (not(equals(u.inRoom, roomId))) {
       // User has not joined
-      const members = [...rJson.members, userId];
-      r = await
+      r.members = [...r.members, userId];
+      u.inRoom = roomId;
+      r = await r.save();
+      u = await u.save();
     }
 
-    // let room = await RoomModel.findById(roomId);
-    // const roomJson = room.toJSON();
-    // if (not(includes(userId, roomJson.members))) {
-    //   console.log('not joined');
-    //   const members = [...roomJson.members, userId];
-    //   room = await RoomModel.findByIdAndUpdate(roomId, {
-    //     members,
-    //   });
-    // }
-    // if (not(includes(userId, roomJson.members))) {
-    //   roomJson.members = [...roomJson.members, userId];
-    //   const updatedRoom = await RoomModel.findByIdAndUpdate(roomId, {
-    //     members: roomJson.members,
-    //   });
-    //   const updatedRoomJson = updatedRoom.toJSON();
-    //   console.log(`✔ User #${userId} joined room #${roomId}`);
-    // }
+    const room = await fitRoom(r);
+    const user = fitUser(u);
+
+    console.log(
+      `✔ User '${user.name}' joined room '${room.name}':`,
+      room,
+      user,
+    );
+    return [room, user];
   } catch (err) {
     console.log(`✘ Error with user #${userId} joining room #${roomId}:`, err);
   }

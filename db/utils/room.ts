@@ -13,16 +13,14 @@ export const createRoom = (name: string): Partial<Room> => ({
 });
 
 export const fitRoom = async (r: RoomDocument): Promise<Room> => {
-  const room = r.toJSON();
-
-  const members: Promise<User>[] = room.members.map(
+  const members: Promise<User>[] = r.members.map(
     async (memberId: string): Promise<User> => {
       const u = await UserModel.findById(memberId);
       return fitUser(u);
     },
   );
 
-  const sessions: Promise<Session>[] = room.sessions.map(
+  const sessions: Promise<Session>[] = r.sessions.map(
     async (sessionId: string): Promise<Session> => {
       const s = await SessionModel.findById(sessionId);
       return await fitSession(s);
@@ -30,10 +28,10 @@ export const fitRoom = async (r: RoomDocument): Promise<Room> => {
   );
 
   return {
-    id: room._id,
-    name: room.name,
+    id: r._id,
+    name: r.name,
     members: await Promise.all(members),
     sessions: await Promise.all(sessions),
-    createdAt: room.createdAt,
+    createdAt: r.createdAt,
   };
 };
