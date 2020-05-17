@@ -1,7 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client';
 import { RoomsStore } from './rooms.store';
-import { RoomDetailStore } from './room-detail.store';
+import { SessionStore } from './session.store';
 import { UserStore } from './user.store';
 
 /**
@@ -9,12 +9,12 @@ import { UserStore } from './user.store';
  */
 export class Store {
   private socket = io();
-  roomDetail: RoomDetailStore;
+  session: SessionStore;
   rooms: RoomsStore;
   user: UserStore;
 
   constructor() {
-    this.roomDetail = new RoomDetailStore(this.socket);
+    this.session = new SessionStore(this.socket);
     this.rooms = new RoomsStore(this.socket);
     this.user = new UserStore(this.socket);
   }

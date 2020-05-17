@@ -1,5 +1,5 @@
 import { BehaviorSubject, fromEvent } from 'rxjs';
-import { RoomDetail } from './room-detail.store';
+import { RoomDetail } from './session.store';
 
 export interface Room {
   id: string;
@@ -29,7 +29,11 @@ export class RoomsStore {
     });
   }
 
-  public addRoom = (roomName: string) => this.socket.emit('addRoom', roomName);
+  public addRoom = (roomName: string) => this.socket.emit('room:add', roomName);
+
+  public joinRoom = (roomId: string) => this.socket.emit('room:join', roomId);
+
+  public leaveRoom = () => this.socket.emit('room:leave');
 
   public removeRoom = (roomId: string) =>
     this.socket.emit('removeRoom', roomId);

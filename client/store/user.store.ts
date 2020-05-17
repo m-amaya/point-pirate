@@ -29,6 +29,6 @@ export class UserStore {
     });
   }
 
-  public updateUsername = (name: string) =>
-    this.socket.emit('updateUsername', name);
+  public updateName = (name: string) =>
+    this.socket.emit('user:me:update', name);
 }

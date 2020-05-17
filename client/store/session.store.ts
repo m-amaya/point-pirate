@@ -42,7 +42,7 @@ const INIT_ROOM: RoomDetail = {
   createdAt: null,
 };
 
-export class RoomDetailStore {
+export class SessionStore {
   private socket: SocketIOClient.Socket;
   public inRoom$: BehaviorSubject<RoomDetail>;
   public inSession$: BehaviorSubject<Session>;
@@ -64,7 +64,21 @@ export class RoomDetailStore {
     });
   }
 
-  public joinRoom = (roomId: string) => this.socket.emit('joinRoom', roomId);
+  public addSession = (roomId: string) =>
+    this.socket.emit('session:add', roomId);
 
-  public leaveRoom = () => this.socket.emit('leaveRoom');
+  public updateDescription = (sessionId: string, description: string) =>
+    this.socket.emit('session:description:update', sessionId, description);
+
+  public startSession = (sessionId: string) =>
+    this.socket.emit('session:start', sessionId);
+
+  public vote = (sessionId: string, points: number) =>
+    this.socket.emit('session:vote', sessionId, points);
+
+  public endSession = (sessionId: string) =>
+    this.socket.emit('session:end', sessionId);
+
+  public redoSession = (sessionId: string) =>
+    this.socket.emit('session:redo', sessionId);
 }
