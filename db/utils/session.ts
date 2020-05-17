@@ -10,16 +10,16 @@ export const createSession = (roomId: string): Partial<Session> => ({
   createdAt: Date.now(),
 });
 
-export const fitVote = (u: UserDocument, point: number): Vote => ({
+export const fitVote = (u: UserDocument, points: number): Vote => ({
   user: fitUser(u),
-  point,
+  points,
 });
 
 export const fitSession = async (s: SessionDocument): Promise<Session> => {
   const votes: Promise<Vote>[] = s.votes.map(
-    async ({ userId, point }): Promise<Vote> => {
+    async ({ userId, points }): Promise<Vote> => {
       const u = await UserModel.findById(userId);
-      return fitVote(u, point);
+      return fitVote(u, points);
     },
   );
 

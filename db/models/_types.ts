@@ -7,7 +7,7 @@ export interface User {
 
 export interface Vote {
   user: User;
-  point: number;
+  points: number;
 }
 
 export interface Session {

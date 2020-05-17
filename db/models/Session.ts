@@ -6,7 +6,7 @@ export interface SessionDocument extends Document {
   endDate: number;
   votes: {
     userId: string;
-    point: number;
+    points: number;
   }[];
   inRoom: string;
   createdAt: number;
@@ -19,7 +19,7 @@ const schema = new Schema({
   votes: [
     {
       userId: Types.ObjectId,
-      point: Number,
+      points: Number,
     },
   ],
   inRoom: Types.ObjectId,
