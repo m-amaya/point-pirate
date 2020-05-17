@@ -3,4 +3,4 @@
  * @param sessionId Vote session to retake
  * @returns New vote session
  */
-export async function retakeVote(sessionId: string) {}
+export async function redoSession(sessionId: string) {}

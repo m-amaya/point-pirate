@@ -3,4 +3,4 @@
  * @param sessionId Vote session to end
  * @returns Updated vote session
  */
-export async function endVote(sessionId: string) {}
+export async function endSession(sessionId: string) {}

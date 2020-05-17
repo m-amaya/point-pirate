@@ -1,5 +1,5 @@
-import { Document } from 'mongoose';
-import { User } from '../../models/_types';
+import { User } from '../models/_types';
+import { UserDocument } from '../models/User';
 
 export const createUser = (id: string, name: string): User => ({
   id,
@@ -8,7 +8,7 @@ export const createUser = (id: string, name: string): User => ({
   createdAt: Date.now(),
 });
 
-export const fitUser = (u: Document): User => {
+export const fitUser = (u: UserDocument): User => {
   const user = u.toJSON();
 
   return {

@@ -1,4 +1,11 @@
-import { Schema, Types, model } from 'mongoose';
+import { Document, Schema, Types, model } from 'mongoose';
+
+export interface RoomDocument extends Document {
+  name: string;
+  members: string[];
+  sessions: string[];
+  createdAt: number;
+}
 
 const schema = new Schema({
   name: String,
@@ -7,4 +14,4 @@ const schema = new Schema({
   createdAt: Date,
 });
 
-export const RoomModel = model('Room', schema);
+export const RoomModel = model<RoomDocument>('Room', schema);

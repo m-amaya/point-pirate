@@ -3,4 +3,4 @@
  * @param roomId Room to add vote session
  * @returns New vote session
  */
-export async function addVoteSession(roomId: string) {}
+export async function addSession(roomId: string) {}

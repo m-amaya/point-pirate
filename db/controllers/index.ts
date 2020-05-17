@@ -1,29 +1,31 @@
 import { addRoom } from './addRoom';
+import { addSession } from './addSession';
 import { addUser } from './addUser';
-import { addVoteSession } from './addVoteSession';
-import { endVote } from './endVote';
+import { castVote } from './castVote';
+import { endSession } from './endSession';
 import { joinRoom } from './joinRoom';
 import { listRooms } from './listRooms';
 import { leaveRoom } from './leaveRoom';
+import { redoSession } from './redoSession';
 import { removeRoom } from './removeRoom';
 import { removeUser } from './removeUser';
-import { retakeVote } from './retakeVote';
-import { startVote } from './startVote';
+import { startSession } from './startSession';
 import { updateStoryDescription } from './updateStoryDescription';
 import { updateUsername } from './updateUsername';
 
 export const c = {
   addRoom,
+  addSession,
   addUser,
-  addVoteSession,
-  endVote,
+  castVote,
+  endSession,
   joinRoom,
   listRooms,
   leaveRoom,
+  redoSession,
   removeRoom,
   removeUser,
-  retakeVote,
-  startVote,
+  startSession,
   updateStoryDescription,
   updateUsername,
 };

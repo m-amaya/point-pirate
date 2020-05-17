@@ -1,9 +1,9 @@
-import { Document } from 'mongoose';
-import { Room, User, VoteSession } from '../../models/_types';
-import { UserModel } from '../../models/User';
-import { VoteSessionModel } from '../../models/VoteSession';
+import { Room, User, Session } from '../models/_types';
+import { RoomDocument } from '../models/Room';
+import { SessionModel } from '../models/Session';
+import { UserModel } from '../models/User';
+import { fitSession } from './session';
 import { fitUser } from './user';
-import { fitVoteSession } from './vote';
 
 export const createRoom = (name: string): Partial<Room> => ({
   name,
@@ -12,7 +12,7 @@ export const createRoom = (name: string): Partial<Room> => ({
   createdAt: Date.now(),
 });
 
-export const fitRoom = async (r: Document): Promise<Room> => {
+export const fitRoom = async (r: RoomDocument): Promise<Room> => {
   const room = r.toJSON();
 
   const members: Promise<User>[] = room.members.map(
@@ -22,10 +22,10 @@ export const fitRoom = async (r: Document): Promise<Room> => {
     },
   );
 
-  const sessions: Promise<VoteSession>[] = room.sessions.map(
-    async (sessionId: string): Promise<VoteSession> => {
-      const v = await VoteSessionModel.findById(sessionId);
-      return await fitVoteSession(v);
+  const sessions: Promise<Session>[] = room.sessions.map(
+    async (sessionId: string): Promise<Session> => {
+      const s = await SessionModel.findById(sessionId);
+      return await fitSession(s);
     },
   );
 

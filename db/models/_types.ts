@@ -10,7 +10,7 @@ export interface Vote {
   point: number;
 }
 
-export interface VoteSession {
+export interface Session {
   id: string;
   storyDescription: string;
   startDate: number;
@@ -24,6 +24,6 @@ export interface Room {
   id: string;
   name: string;
   members: User[];
-  sessions: VoteSession[];
+  sessions: Session[];
   createdAt: number;
 }
