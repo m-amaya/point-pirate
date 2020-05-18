@@ -6,11 +6,11 @@ import { RoomListItem } from 'app/molecules/RoomListItem';
 import { StoreCtx } from 'store';
 
 export const Rooms: React.FC = () => {
-  const { rooms, roomDetail } = useContext(StoreCtx);
-  const roomList = useObservableState(rooms.listSubject, []);
+  const { rooms } = useContext(StoreCtx);
+  const roomList = useObservableState(rooms.list$, []);
 
   useLayoutEffect(() => {
-    roomDetail.leaveRoom();
+    rooms.leaveRoom();
   }, []);
 
   return (

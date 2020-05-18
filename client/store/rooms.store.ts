@@ -36,5 +36,5 @@ export class RoomsStore {
   public leaveRoom = () => this.socket.emit('room:leave');
 
   public removeRoom = (roomId: string) =>
-    this.socket.emit('removeRoom', roomId);
+    this.socket.emit('room:remove', roomId);
 }

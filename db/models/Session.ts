@@ -5,10 +5,10 @@ export interface SessionDocument extends Document {
   startDate: number;
   endDate: number;
   votes: {
-    userId: string;
+    userId: Types.ObjectId;
     points: number;
   }[];
-  inRoom: string;
+  inRoom: Types.ObjectId;
   createdAt: number;
 }
 

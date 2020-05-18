@@ -34,7 +34,7 @@ export interface RoomDetail {
   createdAt: number | null;
 }
 
-const INIT_ROOM: RoomDetail = {
+export const INIT_ROOM: RoomDetail = {
   id: '',
   name: '',
   members: [],

@@ -8,9 +8,9 @@ import { createUser, fitUser } from '../utils/user';
  * @param userId Socket id
  * @returns New user
  */
-export async function addUser(userId: string): Promise<User> {
+export async function addUser(): Promise<User> {
   try {
-    const newUser = createUser(userId, generateName());
+    const newUser = createUser(generateName());
     const u = await UserModel.create(newUser);
     const user = fitUser(u);
     console.log('✔ Added user:', user);

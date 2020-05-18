@@ -10,20 +10,28 @@ import { fitUser } from '../utils/user';
  * @param userId User to leave rooms
  * @returns [Updated room, Updated user]
  */
-export async function leaveRoom(userId: string): Promise<[Room, User]> {
+export async function leaveRoom(
+  userId: string,
+): Promise<[Partial<Room>, User]> {
   try {
     let u = await UserModel.findById(userId);
-    let r = await RoomModel.findById(u.inRoom);
+    let room: Partial<Room> = {};
 
-    u.inRoom = null;
-    r.members = filter((memberId) => memberId !== userId, r.members);
+    if (u.inRoom) {
+      let r = await RoomModel.findById(u.inRoom);
 
-    u = await u.save();
-    r = await r.save();
+      u.inRoom = null;
+      r.members = filter(
+        (memberId) => memberId.toString() !== u.id.toString(),
+        r.members,
+      );
 
-    const room = await fitRoom(r);
+      u = await u.save();
+      r = await r.save();
+      room = await fitRoom(r);
+    }
+
     const user = fitUser(u);
-
     console.log(`✔ User '${user.name}' left room '${room.name}':`, room, user);
     return [room, user];
   } catch (err) {

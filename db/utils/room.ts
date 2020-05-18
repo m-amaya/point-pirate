@@ -15,14 +15,14 @@ export const createRoom = (name: string): Partial<Room> => ({
 
 export const fitRoom = async (r: RoomDocument): Promise<Room> => {
   const members: Promise<User>[] = r.members.map(
-    async (memberId: string): Promise<User> => {
+    async (memberId): Promise<User> => {
       const u = await UserModel.findById(memberId);
       return fitUser(u);
     },
   );
 
   const sessions: Promise<Session>[] = r.sessions.map(
-    async (sessionId: string): Promise<Session> => {
+    async (sessionId): Promise<Session> => {
       const s = await SessionModel.findById(sessionId);
       return await fitSession(s);
     },

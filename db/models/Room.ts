@@ -2,8 +2,8 @@ import { Document, Schema, Types, model } from 'mongoose';
 
 export interface RoomDocument extends Document {
   name: string;
-  members: string[];
-  sessions: string[];
+  members: Types.ObjectId[];
+  sessions: Types.ObjectId[];
   createdAt: number;
 }
 

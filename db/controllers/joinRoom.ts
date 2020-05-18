@@ -19,10 +19,10 @@ export async function joinRoom(
     let r = await RoomModel.findById(roomId);
     let u = await UserModel.findById(userId);
 
-    if (not(equals(u.inRoom, roomId))) {
+    if (not(equals(u.inRoom, r.id))) {
       // User has not joined
-      r.members = [...r.members, userId];
-      u.inRoom = roomId;
+      r.members.push(u.id);
+      u.inRoom = r.id;
       r = await r.save();
       u = await u.save();
     }

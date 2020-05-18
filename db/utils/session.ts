@@ -29,7 +29,7 @@ export const fitSession = async (s: SessionDocument): Promise<Session> => {
     startDate: s.startDate,
     endDate: s.endDate,
     votes: await Promise.all(votes),
-    inRoom: s.inRoom,
+    inRoom: s.inRoom.toString(),
     createdAt: s.createdAt,
   };
 };

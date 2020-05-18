@@ -17,14 +17,14 @@ export const User: React.FC = () => {
   const [name, setName] = useState('');
   const inputEl = useRef<HTMLInputElement>(null);
 
-  useSubscription(user.meSubject, (me) => setName(me.name));
+  useSubscription(user.me$, (me) => setName(me.name));
 
   const onChange: ChangeEventHandler<HTMLInputElement> = ({
     currentTarget: { value },
   }) => {
     if (value) {
       setName(value);
-      user.updateUsername(value);
+      user.updateName(value);
     } else {
       setName(name);
     }
