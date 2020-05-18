@@ -1,12 +1,6 @@
 import { useObservableState } from 'observable-hooks';
-import React, { useContext, useLayoutEffect } from 'react';
-import {
-  Redirect,
-  Route,
-  Switch,
-  useHistory,
-  useParams,
-} from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Route, Switch, useHistory, useParams } from 'react-router-dom';
 import { Header } from 'app/molecules/Header';
 import { SessionStartPanel } from 'app/molecules/SessionStartPanel';
 import { SessionVotingPanel } from 'app/molecules/SessionVotingPanel';
@@ -25,9 +19,15 @@ export const RoomDetail: React.FC = () => {
   const inSession = useObservableState(session.inSession$, INIT_SESSION);
   const me = useObservableState(user.me$, INIT_USER);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     rooms.joinRoom(roomId);
   }, []);
+
+  useEffect(() => {
+    if (inSession.state) {
+      history.push(`/rooms/${roomId}/${inSession.state}`);
+    }
+  }, [inSession.state]);
 
   return (
     <div>
@@ -52,9 +52,6 @@ export const RoomDetail: React.FC = () => {
         </Route>
         <Route path={`/rooms/:roomId/results`}>
           <SessionResultsPanel inRoom={inRoom} inSession={inSession} me={me} />
-        </Route>
-        <Route path="/">
-          <Redirect to={`/rooms/${roomId}/start`} />
         </Route>
       </Switch>
     </div>

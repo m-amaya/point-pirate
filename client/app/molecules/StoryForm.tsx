@@ -1,31 +1,37 @@
-import { useObservableState } from 'observable-hooks';
 import React, { useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button } from 'app/atoms/Button';
 import { Divider } from 'app/atoms/Divider';
 import { Label } from 'app/atoms/Label';
 import { TextArea } from 'app/atoms/TextArea';
 import { StoreCtx } from 'store';
-import { INIT_SESSION } from 'store/session.store';
+import { Session } from 'store/session.store';
 
-export const StoryForm: React.FC = () => {
+interface Props {
+  inSession: Session;
+}
+
+export const StoryForm: React.FC<Props> = ({ inSession }) => {
   const { session } = useContext(StoreCtx);
   const history = useHistory();
-  const inSession = useObservableState(session.inSession$, INIT_SESSION);
-  const params = useParams();
-
-  console.log('params:', params);
 
   const onUpdate = (description: string) =>
     session.updateDescription(inSession.id, description);
+
+  const onClick = () => {
+    session.startSession(inSession.id);
+    history.push(`/rooms/${inSession.inRoom}/vote`);
+  };
 
   return (
     <div>
       <Label>Story</Label>
       <TextArea description={inSession.storyDescription} onUpdate={onUpdate} />
       <ButtonRow>
-        <Button kind="secondary">START VOTE</Button>
+        <Button kind="secondary" onClick={onClick}>
+          START VOTE
+        </Button>
       </ButtonRow>
       <Divider />
     </div>

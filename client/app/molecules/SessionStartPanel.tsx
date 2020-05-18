@@ -11,12 +11,21 @@ interface Props {
   me: User;
 }
 
-export const SessionStartPanel: React.FC<Props> = () => {
+export const SessionStartPanel: React.FC<Props> = ({
+  inRoom,
+  inSession,
+  me,
+}) => {
   return (
     <div>
-      <StoryForm />
-      <StoryPointRow votingInProgress={false} />
-      <TeamList votingInProgress={false} />
+      <StoryForm inSession={inSession} />
+      <StoryPointRow inVote={inSession.state === 'vote'} />
+      <TeamList
+        me={me}
+        members={inRoom.members}
+        votes={inSession.votes}
+        state={inSession.state}
+      />
     </div>
   );
 };

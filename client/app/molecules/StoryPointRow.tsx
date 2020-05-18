@@ -4,13 +4,13 @@ import { Divider } from 'app/atoms/Divider';
 import { Label } from 'app/atoms/Label';
 import { StoryPoint } from 'app/atoms/StoryPoint';
 
-const AVAILABLE_STORY_POINTS = ['1', '2', '3', '5', '8', '13', '🤷‍♂️'];
+const AVAILABLE_STORY_POINTS = [1, 2, 3, 5, 8, 13, -1];
 
 interface Props {
-  votingInProgress: boolean;
+  inVote: boolean;
 }
 
-export const StoryPointRow: React.FC<Props> = ({ votingInProgress }) => {
+export const StoryPointRow: React.FC<Props> = ({ inVote }) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(-1);
 
   const onSelected = (i?: number) => {
@@ -29,7 +29,7 @@ export const StoryPointRow: React.FC<Props> = ({ votingInProgress }) => {
           <StoryPoint
             key={i}
             value={storyPoint}
-            votingInProgress={votingInProgress}
+            inVote={inVote}
             index={i}
             selectedIndex={selectedIndex}
             onSelected={onSelected}

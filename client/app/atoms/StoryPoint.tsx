@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 
 interface Props {
-  value: string;
-  votingInProgress: boolean;
+  value: number;
+  inVote: boolean;
   isSelected?: boolean;
   index?: number;
   selectedIndex?: number;
@@ -13,7 +13,7 @@ interface Props {
 
 export const StoryPoint: React.FC<Props> = ({
   value,
-  votingInProgress,
+  inVote,
   isSelected,
   index,
   selectedIndex,
@@ -25,7 +25,7 @@ export const StoryPoint: React.FC<Props> = ({
   return (
     <Ball
       value={value}
-      votingInProgress={votingInProgress}
+      inVote={inVote}
       onClick={() => {
         if (onSelected) {
           onSelected(index);
@@ -36,21 +36,21 @@ export const StoryPoint: React.FC<Props> = ({
   );
 };
 
-const Ball = styled.div<
-  Pick<Props, 'value' | 'votingInProgress' | 'isSelected'>
->((props) => ({
-  'position': 'relative',
-  'backgroundColor': props.isSelected ? theme.ball.bgSelected : theme.ball.bg,
-  'borderRadius': '50%',
-  'color': theme.ball.fg,
-  'cursor': props.votingInProgress ? 'pointer' : 'not-allowed',
-  'height': '3rem',
-  'width': '3rem',
-  '&::after': {
-    content: `"${props.value}"`,
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-}));
+const Ball = styled.div<Pick<Props, 'value' | 'inVote' | 'isSelected'>>(
+  (props) => ({
+    'position': 'relative',
+    'backgroundColor': props.isSelected ? theme.ball.bgSelected : theme.ball.bg,
+    'borderRadius': '50%',
+    'color': theme.ball.fg,
+    'cursor': props.inVote ? 'pointer' : 'not-allowed',
+    'height': '3rem',
+    'width': '3rem',
+    '&::after': {
+      content: `"${props.value > 0 ? props.value : '🤷‍♂️'}"`,
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  }),
+);

@@ -1,48 +1,61 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { find, isNil } from 'ramda';
+import React from 'react';
+
 import { Label } from 'app/atoms/Label';
+import { SessionState, Vote } from 'store/session.store';
+import { User } from 'store/user.store';
 import { theme } from 'styles/theme';
 
-type VotingState = 'start' | 'pending' | 'voted';
+type VoteState = 'start' | 'pending' | 'voted';
 
-interface Member {
-  id: string;
-  name: string;
-  vote?: string;
+interface UserWithVote extends User {
+  isMe: boolean;
+  points?: number;
+  state: VoteState;
 }
-
-const team: Member[] = [
-  {
-    id: '0',
-    name: 'mamaya',
-    vote: '13',
-  },
-  {
-    id: '1',
-    name: 'Roadtoe Ginger',
-  },
-  {
-    id: '2',
-    name: 'joe 42',
-  },
-];
 
 interface Props {
-  votingInProgress: boolean;
+  me: User;
+  members: User[];
+  votes: Vote[];
+  state?: SessionState;
 }
 
-export const TeamList: React.FC<Props> = ({ votingInProgress }) => {
+const getVoteState = (state: SessionState, points?: number): VoteState => {
+  if (state === 'start') {
+    return 'start';
+  } else if (state === 'vote' && isNil(points)) {
+    return 'pending';
+  }
+
+  return 'voted';
+};
+
+export const TeamList: React.FC<Props> = ({
+  me,
+  members = [],
+  votes = [],
+  state = 'start',
+}) => {
+  const membersWithVote: UserWithVote[] = members.map((member) => {
+    const vote = find((vote) => vote.user.id === member.id, votes);
+
+    return {
+      ...member,
+      isMe: member.id === me.id,
+      points: vote ? vote.points : undefined,
+      state: getVoteState(state, vote ? vote.points : undefined),
+    };
+  });
+
   return (
     <Container>
       <Label>Team</Label>
-      {team.map((member) => (
-        <MemberRow
-          key={member.id}
-          {...member}
-          votingInProgress={votingInProgress}
-        />
+      {membersWithVote.map((member) => (
+        <MemberRow key={member.id} {...member} sessionState={state} />
       ))}
     </Container>
   );
@@ -52,33 +65,29 @@ const Container = styled.div({
   marginBottom: '2rem',
 });
 
-const MemberRow: React.FC<Member & Props> = ({
+const MemberRow: React.FC<UserWithVote & { sessionState: SessionState }> = ({
   name,
-  vote,
-  votingInProgress,
+  isMe,
+  points,
+  state,
+  sessionState,
 }) => {
-  const votingState: VotingState = votingInProgress
-    ? vote
-      ? 'voted'
-      : 'pending'
-    : 'start';
-
-  console.log('voting state:', votingState);
-
   return (
     <Wrapper>
       <MemberWrapper>
         <Icon
-          icon={votingState === 'voted' ? faCheck : faCircleNotch}
-          spin={votingState === 'pending'}
-          voted={votingState === 'voted'}
+          icon={state === 'voted' ? faCheck : faCircleNotch}
+          spin={state === 'pending'}
+          voted={state === 'voted'}
         />
         <Name>{name}</Name>
       </MemberWrapper>
       <VoteBox
-        vote={
-          votingState === 'voted' && (name === 'mamaya' || !votingInProgress)
-            ? vote
+        points={
+          (isMe && state === 'voted') || sessionState === 'results'
+            ? points === -1
+              ? '🤷‍♂'
+              : points
             : undefined
         }
       />
@@ -107,14 +116,14 @@ const Name = styled.div({
   marginLeft: '0.75rem',
 });
 
-const VoteBox = styled.div<{ vote?: string }>((props) => ({
+const VoteBox = styled.div<{ points?: number | string }>((props) => ({
   'position': 'relative',
   'backgroundColor': theme.votebox.bg,
   'borderRadius': 3,
   'height': '1.75rem',
   'width': '2rem',
   '&::after': {
-    content: `"${props.vote ? props.vote : ' '}"`,
+    content: `"${props.points ? props.points : '-'}"`,
     position: 'absolute',
     top: '50%',
     left: '50%',

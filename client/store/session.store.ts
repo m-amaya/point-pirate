@@ -1,6 +1,8 @@
 import { BehaviorSubject, fromEvent } from 'rxjs';
 import { User } from './user.store';
 
+export type SessionState = 'start' | 'vote' | 'results';
+
 export interface Vote {
   user: User;
   points: number;
@@ -9,11 +11,12 @@ export interface Vote {
 export interface Session {
   id: string;
   storyDescription: string;
-  startDate: number | null;
-  endDate: number | null;
+  startDate: string | null;
+  endDate: string | null;
   votes: Vote[];
   inRoom: string;
-  createdAt: number | null;
+  createdAt: string | null;
+  state?: SessionState;
 }
 
 export const INIT_SESSION: Session = {
@@ -31,7 +34,7 @@ export interface RoomDetail {
   name: string;
   members: User[];
   sessions: Session[];
-  createdAt: number | null;
+  createdAt: string | null;
 }
 
 export const INIT_ROOM: RoomDetail = {
@@ -60,7 +63,16 @@ export class SessionStore {
     });
 
     inSessionChannel$.subscribe({
-      next: (session) => this.inSession$.next(session),
+      next: (session) => {
+        const state: SessionState =
+          session.startDate && session.endDate
+            ? 'results'
+            : session.startDate
+            ? 'vote'
+            : 'start';
+
+        this.inSession$.next({ ...session, state });
+      },
     });
   }
 

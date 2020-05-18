@@ -82,10 +82,11 @@ io.on('connection', async (socket) => {
     io.to(room.id).emit('room:current', room);
     io.emit('room:list', await c.listRooms());
   });
-  // socket.on('session:start', async (sessionId: string) => {
-  //   const session = await c.startSession(sessionId);
-  //   io.to(session.inRoom).emit('session:current', session);
-  // });
+
+  socket.on('session:start', async (sessionId: string) => {
+    const session = await c.startSession(sessionId);
+    io.to(session.inRoom).emit('session:current', session);
+  });
   // socket.on('session:end', async (sessionId: string) => {
   //   const session = await c.endSession(sessionId);
   //   io.to(session.inRoom).emit('session:current', session);

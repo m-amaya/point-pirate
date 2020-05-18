@@ -13,7 +13,7 @@ export async function startSession(sessionId: string): Promise<Session> {
     s.startDate = Date.now();
     s = await s.save();
 
-    const session = fitSession(s);
+    const session = await fitSession(s);
     console.log(`✔ Started session:`, session);
     return session;
   } catch (err) {
