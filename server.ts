@@ -95,13 +95,13 @@ io.on('connection', async (socket) => {
   //   io.to(room.id).emit('session:current', session);
   //   io.to(room.id).emit('room:current', room);
   // });
-  // socket.on(
-  //   'session:description:update',
-  //   async (sessionId: string, description: string) => {
-  //     const session = await c.updateStoryDescription(sessionId, description);
-  //     io.to(session.inRoom).emit('session:current', session);
-  //   },
-  // );
+  socket.on(
+    'session:description:update',
+    async (sessionId: string, description: string) => {
+      const session = await c.updateStoryDescription(sessionId, description);
+      io.to(session.inRoom).emit('session:current', session);
+    },
+  );
   // socket.on('session:vote', async (sessionId: string, points: number) => {
   //   const session = await c.castVote(sessionId, me.id, points);
   //   io.to(session.inRoom).emit('session:current', session);

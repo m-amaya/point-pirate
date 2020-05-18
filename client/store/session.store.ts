@@ -16,7 +16,7 @@ export interface Session {
   createdAt: number | null;
 }
 
-const INIT_SESSION: Session = {
+export const INIT_SESSION: Session = {
   id: '',
   storyDescription: '',
   startDate: null,

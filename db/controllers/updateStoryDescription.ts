@@ -17,7 +17,7 @@ export async function updateStoryDescription(
     s.storyDescription = description;
     s = await s.save();
 
-    const session = fitSession(s);
+    const session = await fitSession(s);
     console.log(`✔ Updated story description:`, session);
     return session;
   } catch (err) {

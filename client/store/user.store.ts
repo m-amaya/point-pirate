@@ -7,7 +7,7 @@ export interface User {
   createdAt: number | null;
 }
 
-const INIT_USER: User = {
+export const INIT_USER: User = {
   id: '',
   name: '',
   inRoom: null,

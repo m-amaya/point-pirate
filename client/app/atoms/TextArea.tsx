@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
 import styled from '@emotion/styled';
 import { theme } from 'styles/theme';
 
-export const TextArea: React.FC = () => {
-  return <BaseTextArea placeholder="Enter description here" rows={3} />;
+interface Props {
+  description: string;
+  onUpdate: (description: string) => void;
+}
+
+export const TextArea: React.FC<Props> = ({ description, onUpdate }) => {
+  const onChange: ChangeEventHandler<HTMLTextAreaElement> = ({
+    currentTarget: { value },
+  }) => onUpdate(value);
+
+  return (
+    <BaseTextArea
+      placeholder="Enter description here"
+      rows={3}
+      value={description}
+      onChange={onChange}
+    />
+  );
 };
 
 const BaseTextArea = styled(TextareaAutosize)({
